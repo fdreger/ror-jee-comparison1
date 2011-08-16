@@ -1,6 +1,7 @@
 package net.bajobongo.ch.faktury.service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -14,6 +15,7 @@ import net.bajobongo.ch.faktury.entity.SystemUser;
 @Stateless
 public class CompanyService {
 
+    static Locale locale = new Locale("pl");
     static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
     @PersistenceContext
     EntityManager em;
@@ -22,7 +24,7 @@ public class CompanyService {
         return em.createQuery("select c.address.name from Company c where c.owner = :user and lower(c.address.name) like :part")
                 .setMaxResults(15)
                 .setParameter("user", su)
-                .setParameter("part", "%" + part + "%")
+                .setParameter("part", "%" + part.toLowerCase(locale) + "%")
                 .getResultList();
     }
 

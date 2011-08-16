@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:ppctu="http://primefaces.prime.com.tr/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="value" type="net.bajobongo.ch.faktury.entity.Address" />
+        <cc:attribute name="countries" type="net.bajobongo.ch.faktury.entity.Country[]" />
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <h:panelGrid columns="2">
+            <h:outputLabel value="Line 1" />
+            <h:inputText value="#{cc.attrs.value.line1}" />
+            <h:outputLabel value="Line 2" />
+            <h:inputText value="#{cc.attrs.value.line2}" />
+            <h:outputLabel value="Country" />
+            <h:selectOneMenu value="#{cc.attrs.value.country}" >
+                <f:selectItems value="#{cc.attrs.countries}" />
+            </h:selectOneMenu>
+            <h:outputLabel value="Vat No" />
+            <h:inputText value="#{cc.attrs.value.vatno}" />
+        </h:panelGrid>
+    </cc:implementation>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="#{resource['css/default.css']}" rel="stylesheet" type="text/css" />
+        <link href="#{resource['css/cssLayout.css']}" rel="stylesheet" type="text/css" />
+        <title>Invoice</title>
+    </h:head>
+
+    <h:body>    
+        <h:form id="form">
+
+            <div id="top" class="top">
+                <h:link outcome="/index" value="home"/>
+                &nbsp;
+                <h:panelGroup rendered="#{account.loggedIn}">
+                    <h:link outcome="/company/index" value="companies" />
+                    &nbsp;
+                    <h:link outcome="/invoice/index" value="invoices"  />
+                    &nbsp; 
+                    <span style="float: right">
+                        logged in as:
+                        <b>#{account.user.login}</b>
+                        |
+                        <h:commandLink action="#{account.logOut}" value="sign out"/>
+                    </span>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{!account.loggedIn}">
+                    <h:link outcome="/user/create_account" value="create account"/>
+                </h:panelGroup>
+
+
+                <ui:insert name="top"></ui:insert>
+            </div>
+
+            <h:messages 
+                id="messages"
+                style="list-style: none; padding: 0; margin: 0"
+                errorStyle="border: 1px solid red; background-color: #f55" 
+                infoStyle="border: 1px solid green; background-color: #5f5"
+                />
+
+            <div id="content" class="center_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+
+        </h:form>
+    </h:body>
+
+</html>

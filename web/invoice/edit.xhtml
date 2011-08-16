@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:faktury="http://java.sun.com/jsf/composite/faktury"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+    <body>
+        <f:metadata>
+            <f:viewParam valueChangeListener="#{singleInvoice.invoiceIdChanged}" name="id" value="#{singleInvoice.invoiceId}" />
+        </f:metadata>
+
+        <ui:composition template="/template.xhtml">
+
+            <ui:define name="content">
+                <fieldset>
+                    <legend>Basic Data</legend>
+                    number: <h:inputText value="#{singleInvoice.invoice.number}"/>
+                    date:
+                    <p:calendar  value="#{singleInvoice.invoice.invoiceDate}" />
+                    sale date:
+                    <p:calendar value="#{singleInvoice.invoice.saleDate}" />
+                    payment due:
+                    <p:calendar value="#{singleInvoice.invoice.paymentDue}" />
+                </fieldset>
+                <h:panelGrid columns="2">                    
+                    <h:panelGroup id="principal">
+                        <fieldset>
+                            <legend>Principal:</legend>
+                            <p:autoComplete
+                                completeMethod="#{singleInvoice.companyNames}"
+                                value="#{singleInvoice.invoice.principalAddress.name}"
+                                selectListener="#{singleInvoice.principalSelected}"
+                                onSelectUpdate="principal"
+                                queryDelay="500"
+                            />
+                            <faktury:address 
+                                countries="#{countries.countries}"
+                                value="#{singleInvoice.invoice.principalAddress}"/>
+                        </fieldset>
+                    </h:panelGroup>
+                    <h:panelGroup id="customer">
+                        <fieldset>
+                            <legend>Customer:</legend>
+                            <p:autoComplete
+                                completeMethod="#{singleInvoice.companyNames}"
+                                value="#{singleInvoice.invoice.customerAddress.name}"
+                                selectListener="#{singleInvoice.customerSelected}"
+                                onSelectUpdate="customer"
+                                queryDelay="500"
+                            />
+                            <faktury:address 
+                                countries="#{countries.countries}"
+                                value="#{singleInvoice.invoice.customerAddress}">
+                            </faktury:address>                
+                        </fieldset>
+                    </h:panelGroup>
+                </h:panelGrid>
+                <h:panelGroup id="items">
+                <fieldset><legend>Items</legend>
+                    <h:dataTable  var="ii" value="#{singleInvoice.invoice.invoiceItems}">
+                        <h:column>
+                            <f:facet name="header">Name</f:facet>
+                            <h:inputText value="#{ii.name}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Netto</f:facet>
+                            <faktury:inputTextDecimal value="#{ii.netto}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Vat Type</f:facet>
+                            <h:selectOneMenu value="#{ii.vatType}">
+                                <f:selectItems value="#{singleInvoice.vatTypes}" />
+                            </h:selectOneMenu>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Vat</f:facet>
+                            <faktury:inputTextDecimal value="#{ii.vat}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Discount</f:facet>
+                            <faktury:inputTextDecimal value="#{ii.discount}" />
+                        </h:column>     
+                        <h:column>
+                            <h:commandButton value="remove" action="#{singleInvoice.removeItem(ii)}" >
+                                <f:ajax execute=":form:items" render=":form:items :form:messages"/>
+                            </h:commandButton>
+                        </h:column>                        
+                    </h:dataTable>
+                    <h:commandButton value="new item" action="#{singleInvoice.addItem}" >
+                        <f:ajax execute="items" render=":form:items :form:messages"/>
+                    </h:commandButton>
+                </fieldset>
+                </h:panelGroup>
+
+                <h:commandButton value="save" action="#{singleInvoice.saveInvoice}" >
+                </h:commandButton>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+        <ui:composition template="./../template.xhtml">
+            <ui:define name="content">
+                <h:panelGrid rendered="#{!account.loggedIn}" columns="2">
+                    <h:outputLabel value="Login"/>
+                    <h:inputText value="#{loginForm.login}" />
+
+                    <h:outputLabel value="Email"/>
+                    <h:inputText value="#{loginForm.email}" />
+                    
+                    <h:outputLabel value="Password"/>
+                    <h:inputSecret value="#{loginForm.password}" />
+
+                    <h:outputLabel value="Retype Password"/>
+                    <h:inputSecret value="#{loginForm.passwordConfirmation}" />
+
+                    <h:commandButton value="create account" 
+                                     action="#{account.createUser(loginForm.login, loginForm.email, loginForm.password, loginForm.passwordConfirmation)}"/>
+                </h:panelGrid>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>
